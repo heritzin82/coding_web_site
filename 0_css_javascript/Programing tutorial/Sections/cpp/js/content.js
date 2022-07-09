@@ -4,54 +4,29 @@ import { updateMenuParams } from "./menu.js"
 /****************** 
    * EXPORTED FUNCTIONS 
    * ****************/
-let fadeInButton = document.getElementById("fadeIn")
-    .onclick = function () {
-        startFadeAnimation("main");
-    }
-
-let fadeOutButton = document.getElementById("fadeOut")
-    .onclick = function () {
-        stopFadeAnimation("main");
-    }
 
 function ProcessMenuLink(url, container) {
     console.log(`button pressed
       url: ${url}
       container: ${container}`);
 
-    startFadeAnimation(container);
+    $("#"+container).fadeOut("slow");
     AJAXgetData(url, container, successCallback, failCallback);
-    
+
 }
 
 /****************** 
    * LOCAL FUNCTIONS 
    * ****************/
-function startFadeAnimation(container) {
-    console.log(startFadeAnimation.name);
+$("#fadeIn").click(function () {
+    $("#main").fadeIn(1000);
+    //console.log("fadeIn");
+});
 
-    let d = document.getElementById(container);
-    if (d) {
-        //d.classList.toggle('active');
-        d.classList.add('faded');
-    }
-    else {
-        console.log("Error: container not found");
-    }
-}
-
-function stopFadeAnimation(container) {
-    console.log(stopFadeAnimation.name);
-
-    let d = document.getElementById(container);
-    if (d) {
-        //d.classList.toggle('active');
-        d.classList.remove('faded');
-    }
-    else {
-        console.log("Error: container not found");
-    }
-}
+$("#fadeOut").click(function () {
+    $("#main").fadeOut(1000);
+    //console.log("fadeOut");
+});
 
 function successCallback(container, content) {
     //animation
@@ -59,30 +34,32 @@ function successCallback(container, content) {
 
     sleepp(1000).then(() => {
         // Do something after the sleep!
-        stopFadeAnimation(container);
+        //stopFadeAnimation(container);
 
         let d = document.getElementById(container);
         if (d) {
             d.innerHTML = content;
         }
+        $("#"+container).fadeIn("slow");
     });
 }
 
 function failCallback(container, content) {
     sleepp(500).then(() => {
         // Do something after the sleep!
-        stopFadeAnimation(container);
+        //stopFadeAnimation(container);
 
         let d = document.getElementById(container);
         if (d) {
             d.innerHTML = "<H1 style=\"color: red;\">FILE NOT FOUND</H1>";
         }
+        $("#"+container).fadeIn("slow");
     });
 }
 
 // sleep time expects milliseconds
-function sleepp (time) {
+function sleepp(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
-  }
+}
 
 export { ProcessMenuLink };

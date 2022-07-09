@@ -1,3 +1,7 @@
+:root {
+  --active_btn_color: lightseagreen;
+}
+
 /* Fixed sidenav, full height */
 .sidenav {
   height: 100%;
@@ -16,7 +20,7 @@
 .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 15px;
   color: #818181;
   display: block;
   border: none;
@@ -33,18 +37,11 @@
   color: #f1f1f1;
 }
 
-/* Main content */
-.main {
-  margin-left: 200px;
-  /* Same as the width of the sidenav */
-  font-size: 20px;
-  /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
+
 
 /* Add an active class to the active dropdown button */
 .active {
-  background-color: lightseagreen;
+  background-color: var(--active_btn_color);
   color: white;
 }
 
@@ -82,19 +79,33 @@
 
 
 /********Content formatting*********/
+
+/* Main content */
+.main {
+  margin: 5px 0px 0px 200px; /*top right bottom left*/
+  /* Same as the width of the sidenav */
+  font-size: 15px;
+  /* Increased text to enable scrolling */
+  padding: 0px 10px 5px;
+  border: 2px solid #818181;
+  border-radius: 8px;
+  background-color:lightgrey;
+}
+
+
 .code {
   font-size: small;
-  background-color: lightseagreen;
+  background-color: var(--active_btn_color);
   border: thin solid black;
   border-radius: 10px 50px 10px 10px;
-  margin: 0px 20px 0px 20px;
+  margin: 0px 20px 0px; /*top, left/right, bottom*/
+  padding: 10px 5px;
 }
 
 .content-code-highlight {
   /*color: rgb(199, 205, 207);*/
   /*font-size:larger;*/
   background-color: rgb(199, 205, 207);
-  ;
 }
 
 .text-justify {
@@ -102,22 +113,8 @@
   text-justify: inter-word;
 }
 
-
 /*@keyframes fade-animation {
   0%    { opacity: 1;  }
   100%   { opacity: 0; }
 }*/
 
-.main {
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out ;
-  /*opacity: 0;
-  color:red;
-  color:black;*/
-}
-
-.main.faded {
-  opacity: 0;
-  /*color: blue;*/
-  /*animation: fade-animation 5s forwards;*/
-}
