@@ -1,0 +1,39 @@
+<div id="mainContentContainer">
+    <h1>Constant functions</h1>
+    <p>A constant function prevents from modifying any member of the class</p>
+
+    <pre class="code">
+        <code>
+        class Class1
+        { 
+            void Method1();
+            int MemberVariable1;
+        }
+    </code>
+</pre>
+
+    <p class="text-justify"> has no explicit parameters at all to ‘Method1’ but calling it in an
+        object in this class might alter ‘MemberVariable1’ of that object if
+        ‘Method1’ happened to be, for example,</p>
+
+    <pre class="code">
+            <code>
+        void Class1::Method1()
+        { 
+            MemberVariable1=MemberVariable1+1;
+        }
+        </code>
+        </pre>
+
+    <p>The solution to that is to put ‘const’ after the parameter list like</p>
+
+    <pre class="code">
+        <code>
+        class Class2
+        { 
+            void Method1() <b class="content-code-highlight">const</b>;
+            int MemberVariable1;
+        }
+        </code>
+    </pre>
+</div>

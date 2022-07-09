@@ -1,0 +1,108 @@
+/*
+[]  {}  <>  
+*/
+
+.debug {
+    outline: 1px solid limegreen !important;
+}
+
+.background-gradient {
+    background-image: radial-gradient(white, rgb(87, 84, 84));
+    background-size: 100% 100%;
+
+    /*Stars background
+    background-color:black;
+background-image:
+radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;*/
+
+    /* notebook background*/
+    /*background-color: #fff;
+background-image:
+linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+linear-gradient(#eee .1em, transparent .1em);
+background-size: 100% 1.2em;*/
+
+    /**/
+}
+
+.google-font {
+    font-family: Play, serif;
+}
+
+.text-center-shadow {
+    text-align: center;
+    color: aliceblue;
+    text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
+}
+
+#container1 {
+    /*height: 100vh;*/
+    display: flex;
+    /*align-items: center;*/
+    justify-content: center;
+}
+
+#svg1 {
+    /*width: 150px;*/
+
+    stroke: purple;
+    /*fill: yellow;*/
+    fill: gray;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 0;
+    /* animation through javascript
+    animation: 4s ease-in forwards animate1;*/
+}
+
+#svg2 {
+    /*width: 150px;*/
+
+    stroke: purple;
+    /*fill: yellow;*/
+    fill: gray;
+    stroke-dasharray: 70;
+    stroke-dashoffset: 0;
+    animation: 4s forwards animate2;
+}
+
+@keyframes animate1 {
+    0% {
+        stroke-dashoffset: 60;
+        fill: gray
+    }
+
+    50% {
+        stroke-dashoffset: 0;
+        fill: gray
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        fill: blue
+    }
+}
+
+@keyframes animate2 {
+    0% {
+        stroke-dashoffset: 70;
+        fill-opacity: 0%;
+        fill:blue
+    }
+
+    50% {
+        stroke-dashoffset: 0;
+        fill-opacity: 0%;
+        fill:blue
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        fill-opacity: 100%;
+        fill:blue
+    }
+}

@@ -1,0 +1,49 @@
+/* [] {} <> */
+:root {
+    --grid_columns: 0;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+
+}
+
+.body-bg{
+    background-color: black;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid_columns), 1fr);
+    /* responsive grid
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    */
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.debug {
+    outline: 1px solid limegreen !important;
+}
+
+.buttonContainer {
+    background-color: none;
+}
+
+.icon {
+    background-color: #BDDAD3;
+    text-align: center;
+    padding: 1rem;
+}
+
+.text-white{
+    color: white;
+}
