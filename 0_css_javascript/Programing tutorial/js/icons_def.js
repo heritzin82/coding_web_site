@@ -9,19 +9,19 @@ let iconsArray = [
     {
         text: "C++",
         icon: "icons/cpp.png",
-        link: "cpp/index.html",
+        link: "cpp/",
         timeline: Object(),
     },
     {
         text: "Java",
         icon: "icons/java.png",
-        link: "cpp/index.html",
+        link: "cpp/",
         timeline: Object(),
     },
     {
         text: "C#",
         icon: "icons/cSharp.png",
-        link: "cpp/index.html",
+        link: "cpp/",
         timeline: Object(),
     },
     {

@@ -9,5 +9,7 @@
 <pre>This is a 
     sssssparagrah.</pre>
 
+    <?php echo "php test"; ?>
+
 </body>
 </html>

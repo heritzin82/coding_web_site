@@ -39,7 +39,9 @@
 }
 
 .icon {
-    background-color: #BDDAD3;
+    /*background-color: #BDDAD3;*/
+    background: radial-gradient(circle at 10px 10px, white, blue);
+    border-radius: 50%;
     text-align: center;
     padding: 1rem;
 }

@@ -2,8 +2,24 @@
 
 import { iconsArray } from './icons_def.js';
 
+const data = {
+    anim0: {
+        timeline: [],
+        animEnded: [],
+        mouseIn: []
+    },
+    anim1: {
+        timeline: [],
+        animEnded: [],
+        mouseIn: []
+    },
+    /*animation:
+        [
+            { timeline: [], animEnded: [], mouseIn: [], }, //Loading animation
+            { timeline: [], animEnded: [], mouseIn: [], },  //Mouse in/out animation
+        ],*/
+};
 
-let timelinex = [];
 console.log("****TODO: use timelinex var instead of iconsArray");
 //TimelineMax({ anim_params });
 
@@ -43,6 +59,13 @@ iconsArray.forEach(function (item) {
 
     cc.appendChild(buttonContainer);
 
+    //INIT DATA ARRAYS
+    /*data.anim0.animEnded= false;
+    data.anim0.mouseIn = false;
+    initialAnimationEnd[index] = false;
+        data.mouseIn[index] = false;
+        asdfsfd*/
+
     counter++;
 });
 
@@ -57,242 +80,144 @@ r.style.setProperty('--grid_columns', iconsArray.length);
 //------Add initial animation to grid elements (and mouse over animations)
 let container = document.querySelectorAll("div.buttonContainer");
 console.log("Number of icons:" + container.length);
-let mydelay = 0;
-let c = 0;
-const anim_params = { repeat: 0, repeatDelay: 0 };
-const animation = { left: 100, opacity: 0, y: -20 };
-const timeout = 2;
 
-container.forEach(function (item) {
-    gsap.from("#" + item.firstChild.id, { opacity: 0, duration: 2, delay: mydelay, y: -200, ease: "bounce" });
+let mydelay = 0;
+//let c = 0;
+const anim_params = { repeat: 0, repeatDelay: 0 };
+const animation_start = { left: 0, opacity: 1, y: 0 };
+const animation = {
+    left: 100,
+    opacity: 0,
+    y: -20,
+    repeat: 1,
+    yoyo: true,
+    duration: 1
+};
+
+container.forEach(function (item, index) {
+    /*gsap.from("#" + item.firstChild.id, { opacity: 0, duration: 2, delay: mydelay, 
+        y: -200, ease: "bounce" });*/
+
+
+    //INITIALIZATION
+    data.anim0.animEnded[index] = false;
+
+    data.anim0.timeline[index] = new TimelineMax({
+        onStart: function () {
+            console.log('starting anim 0, index:' + index);
+        },
+        onComplete: function () {
+            console.log('completed anim 0, index:' + index);
+            data.anim0.animEnded[index] = true;
+        },
+    });
+
+    data.anim0.timeline[index].from("#" + item.firstChild.id,
+        {
+            opacity: 0,
+            duration: 2,
+            y: -200, //x: 0,
+            delay: mydelay,
+            ease: "bounce",
+        });
+    /*data.anim0.timeline[index].fromTo("#" + item.firstChild.id,
+        {
+            opacity: 0,
+            y: -200,
+            //x: 0
+        },
+        {
+            opacity: 1,
+            duration: 2,
+            y: 0, //x: 0,
+            delay: mydelay,
+            ease: "bounce",
+        });*/
     mydelay += 0.1;
 
     //e = document.getElementById(item.firstChild.id);
     //e.innerHTML = item.icon;
 
     //console.log(""+iconsArray[c].text);
-    
-    iconsArray[c].timeline = gsap.to("#"+item.firstChild.id, timeout, animation);
-    iconsArray[c].timeline.pause();
 
-    /*iconsArray[c].timeline = new TimelineMax({ anim_params });
-    iconsArray[c].timeline.to("#"+item.firstChild.id, timeout, animation);
-    iconsArray[c].timeline.pause();*/
 
-    let element = item.firstChild;
 
-    element.addEventListener("mouseover", function () {
-        //console.log(iconsArray[0].timeline);
-        let c = (this.id).replace("icon", "");
-        //console.log("c:" + c);
-        iconsArray[c].timeline.play();
-        
+    ///****MOUSE OVER ANIMATION
+
+    //----------------------INITIALIZATION
+    data.anim1.animEnded[index] = false;
+    //data.anim1.timeline[index] = null;
+    data.anim1.mouseIn[index] = false;
+
+    //TODO: Icons appear at the beginning if anim 1 is added.
+    //CHECK!!!!
+    data.anim1.timeline[index] = new TimelineMax({
+        onStart: //animationMouseOverStart(index),
+            function () {
+                console.log('starting animation play:' + index);
+                data.anim1.animEnded[index] = false;//Allow complete animation before reverse
+            },
+        onComplete: //animationMouseOverComplete(index)
+            function () {
+                console.log('anim 1 finished:' + index);
+                data.anim0.animEnded[index] = true;
+                if (data.anim1.mouseIn[index]) {
+                    //data.anim1.timeline[index].restart();
+                    //data.anim1.timeline[index].play();
+                    console.log("animate, mouse is still IN");
+                    if (data.anim1.timeline[index]) {
+                        data.anim1.timeline[index].restart();
+                    }
+                }
+            },
+        paused: true,
+    });
+
+    //data.anim1.timeline[index].pause();
+    data.anim1.timeline[index].fromTo("#" + item.firstChild.id,
+        animation_start, animation);
+
+    item.addEventListener("mouseover", function () {
+        if (data.anim0.animEnded[index]) {
+            console.log(`REQUEST to start ANIM 1, Icon ${index}`)
+            if (data.anim1.timeline[index]) {
+                data.anim1.timeline[index].restart();
+                data.anim1.mouseIn[index] = true;
+                data.anim0.animEnded[index] = false;
+            }
+        }
+        else {
+            console.log(`Icon ${index}, animation NOT ENDED YET`);
+        }
+
         //console.log("mouse over:" + item.firstChild.id);
         //console.log("mouse over:" + this.id);
     });
 
-    element.addEventListener("mouseout", function () {
-        let c = (this.id).replace("icon", "");
-        //console.log("c:" + c);
-        /*setTimeout(() => {
-            t.reverse();
-        }, 700);*/
-        iconsArray[c].timeline.reverse();
+    item.addEventListener("mouseout", function () {
+        data.anim1.mouseIn[index] = false;
+        /*if (data.anim0.animEnded[index]) {
+            //iconsArray[index].timeline.reverse();
+            //TODO: Return animation to initial state
 
+            data.anim1.mouseIn[index] = false;
+        }
+        else {
+            console.log(`Icon ${index}, animation NOT ENDED YET`)
+        }*/
     });
 
-    element.addEventListener("click", function () {
-        let c = (this.id).replace("icon", "");
+    item.addEventListener("click", function () {
+        //let c = (this.id).replace("icon", "");
         //console.log("c:" + c);
         //console.log("redirecting to:" + iconsArray[c].link);
-        window.location.href = iconsArray[c].link;
+        window.location.href = iconsArray[index].link;
         //console.log("mouse click: " + item.firstChild.id);
     });
-    c++;
+    //c++;
 });
 
 //------Add mouse over and mouse out animations to grid elements
 
-
-
 console.log("====================================");
-
-
-
-
-
-gsap.from('.text-h1', { opacity: 0, duration: 5, ease: "bounce" });
-
-//Icons animations
-//gsap.from('#icon1', { opacity: 0, duration: 2, delay: 0, y: -200, ease: "bounce" });
-//gsap.from('#icon2', { opacity: 0, duration: 2, delay: 0.1, y: -200, ease: "bounce" });
-//gsap.from('#icon3', { opacity: 0, duration: 2, delay: 0.2, y: -200, ease: "bounce" });
-
-//----------------AUTOMATICALLY ADD ANIMATIONS BASED ON DOM icons
-/*let animations = [];
-
-let container = document.querySelectorAll("div.buttonContainer");
-console.log("num childs:" + container.length);
-
-let icon_count = 0;
-//let mydelay = 0;
-container.forEach(function (item) {
-    //Initial animation
-    item.firstChild.id = "icon" + icon_count;
-    //console.log("item id:" + item.id);
-    icon_count++;
-
-    gsap.from("#" + item.firstChild.id, { opacity: 0, duration: 2, delay: mydelay, y: -200, ease: "bounce" });
-    mydelay += 0.1;
-
-    /*item.element = document.getElementById(item.icon.substring(1, item.icon.length));
-    //item.element.innerHTML = item.icon;
-
-    item.timeline = new TimelineMax({ anim_params });
-    item.timeline.to(item.icon, timeout, animation);
-    item.timeline.pause();
-
-    item.element.addEventListener("mouseover", function () {
-        item.timeline.play();
-        //console.log("mouse over" + item.icon);
-    });
-
-    item.element.addEventListener("mouseout", function () {
-        item.timeline.reverse();
-        //console.log("mouse out" + item.icon);
-    });
-
-    item.element.parentNode.addEventListener("click", function () {
-        window.location.href = item.path;
-        //console.log("mouse out" + item.icon);
-    });
-});*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Common animation parameters
-/*const timeout = 1;
-const anim_params = { repeat: 0, repeatDelay: 0 };
-const animation = { left: 100, opacity: 0, y: -20 };
-let icons = [
-    {
-        icon: "#icon1",
-        element: Object(),
-        timeline: undefined,
-        path: "cpp/index.html",
-    },
-    {
-        icon: "#icon2",
-        element: Object(),
-        timeline: undefined,
-        path: "cpp/index.html",
-    },
-    {
-        icon: "#icon3",
-        element: Object(),
-        timeline: undefined,
-        path: "cpp/index.html",
-    },
-    {
-        icon: "#icon4",
-        element: Object(),
-        timeline: undefined,
-        path: "cpp/index.html",
-    },
-];
-
-
-let mydelay = 0;
-icons.forEach(function (item) {
-    //Initial animation
-
-    gsap.from(item.icon, { opacity: 0, duration: 2, delay: mydelay, y: -200, ease: "bounce" });
-    mydelay += 0.1;
-
-    item.element = document.getElementById(item.icon.substring(1, item.icon.length));
-    //item.element.innerHTML = item.icon;
-
-    item.timeline = new TimelineMax({ anim_params });
-    item.timeline.to(item.icon, timeout, animation);
-    item.timeline.pause();
-
-    item.element.addEventListener("mouseover", function () {
-        item.timeline.play();
-        //console.log("mouse over" + item.icon);
-    });
-
-    item.element.addEventListener("mouseout", function () {
-        item.timeline.reverse();
-        //console.log("mouse out" + item.icon);
-    });
-
-    item.element.parentNode.addEventListener("click", function () {
-        window.location.href = item.path;
-        //console.log("mouse out" + item.icon);
-    });
-});*/
-
-
-
-/*//ICON 1
-icon1 = document.getElementById("icon1");
-var t1 = new TimelineMax({ anim_params });
-t1.to("#icon1", timeout, { left: 100, opacity: 0 });
-t1.pause();
-
-icon1.addEventListener("mouseover", function () {
-    t1.play();
-});
-
-icon1.addEventListener("mouseout", function () {
-    t1.reverse();
-});
-
-//ICON 2
-icon2 = document.getElementById("icon2");
-var t2 = new TimelineMax({ anim_params });
-t2.to("#icon2", timeout, { left: 100, opacity: 0 });
-t2.pause();
-
-icon2.addEventListener("mouseover", function () {
-    t2.play();
-});
-
-icon2.addEventListener("mouseout", function () {
-    t2.reverse();
-});
-
-//ICON 3
-icon3 = document.getElementById("icon3");
-var t3 = new TimelineMax({ anim_params });
-t3.to("#icon3", timeout, { left: 100, opacity: 0 });
-t3.pause();
-
-icon3.addEventListener("mouseover", function () {
-    t3.play();
-});
-
-icon3.addEventListener("mouseout", function () {
-    t3.reverse();
-});*/
 

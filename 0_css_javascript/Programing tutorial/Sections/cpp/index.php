@@ -49,6 +49,8 @@
 
   <div class="main">
     <p>Some random text..</p>
+    <p>PHP version TEST: </p>
+    <p><?php echo phpversion(); ?> </p>
   </div>
 
   <div id="main" class="main">
