@@ -27,13 +27,12 @@ console.log("****TODO: use timelinex var instead of iconsArray");
 
 //------Create HTML Elements based on icons array
 let cc = document.getElementById("gridContainer");
-let counter = 0;
-iconsArray.forEach(function (item) {
+iconsArray.forEach(function (item, index) {
     let buttonContainer = document.createElement("div");
     buttonContainer.className = "buttonContainer debug";
 
     let L2 = document.createElement("div");
-    L2.id = "icon" + counter;
+    L2.id = "icon" + index;
 
     L2.className = "debug icon";
 
@@ -53,6 +52,7 @@ iconsArray.forEach(function (item) {
 
     let textContainer = document.createElement("div");
     textContainer.className = "text-center text-white";
+    textContainer.id = "buttonLabel" + index;
     textContainer.innerHTML = item.text;
 
     buttonContainer.append(textContainer);
@@ -65,8 +65,6 @@ iconsArray.forEach(function (item) {
     initialAnimationEnd[index] = false;
         data.mouseIn[index] = false;
         asdfsfd*/
-
-    counter++;
 });
 
 //-------Update columns in grid
@@ -119,20 +117,14 @@ container.forEach(function (item, index) {
             y: -200, //x: 0,
             delay: mydelay,
             ease: "bounce",
-        });
-    /*data.anim0.timeline[index].fromTo("#" + item.firstChild.id,
+        })
+        .from("#" + item.childNodes[1].id,
         {
             opacity: 0,
-            y: -200,
-            //x: 0
-        },
-        {
-            opacity: 1,
-            duration: 2,
-            y: 0, //x: 0,
-            delay: mydelay,
-            ease: "bounce",
-        });*/
+            duration: 5,
+            delay: mydelay-2,
+        });
+
     mydelay += 0.1;
 
     //e = document.getElementById(item.firstChild.id);
